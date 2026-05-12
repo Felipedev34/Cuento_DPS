@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Viaje de Lucía — Prosperidad Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rojo: #C8102E;
+    --azul: #003087;
+    --amarillo: #F5C518;
+    --verde: #00A651;
+    --naranja: #F47920;
+    --morado: #7B2D8B;
+    --cian: #0099CC;
+    --bg: #FFF8F0;
+    --card-bg: #fff;
+    --text: #1a1a2e;
+    --shadow: 0 8px 32px rgba(0,48,135,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #003087 0%, #C8102E 60%, #F47920 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    animation: bgFloat 20s linear infinite;
+  }
+  @keyframes bgFloat { from {background-position:0 0} to {background-position:60px 60px} }
+
+  .hero-logo { width: 160px; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); z-index:1; }
+  .hero-stars { font-size: 2.5rem; margin-bottom: 0.5rem; z-index:1; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .hero p {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: rgba(255,255,255,0.9);
+    z-index: 1;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+  .hero-badge {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 30px;
+    padding: 0.4rem 1.2rem;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    z-index: 1;
+    letter-spacing: 0.05em;
+  }
+  .btn-start {
+    background: var(--amarillo);
+    color: var(--azul);
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 2.5rem;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 1;
+    box-shadow: 0 6px 24px rgba(245,197,24,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-start:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(245,197,24,0.5); }
+
+  /* CHAPTERS */
+  .chapter {
+    display: none;
+    min-height: 100vh;
+    padding: 3rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease;
+  }
+  .chapter.active { display: block; }
+  @keyframes fadeIn { from {opacity:0; transform:translateY(20px)} to {opacity:1; transform:translateY(0)} }
+
+  .chapter-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .chapter-emoji { font-size: 4rem; display: block; margin-bottom: 0.5rem; }
+  .chapter-num {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rojo);
+    margin-bottom: 0.25rem;
+  }
+  .chapter-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--azul);
+    line-height: 1.2;
+  }
+
+  /* STORY BUBBLE */
+  .story-bubble {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--azul);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    position: relative;
+  }
+  .story-bubble.red { border-left-color: var(--rojo); }
+  .story-bubble.green { border-left-color: var(--verde); }
+  .story-bubble.orange { border-left-color: var(--naranja); }
+  .story-bubble.yellow { border-left-color: var(--amarillo); background: #FFFBEC; }
+  .story-bubble.morado { border-left-color: var(--morado); }
+  .story-bubble.cian { border-left-color: var(--cian); }
+
+  .story-bubble .character {
+    font-weight: 700;
+    color: var(--azul);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+  }
+  .story-bubble.red .character { color: var(--rojo); }
+  .story-bubble.green .character { color: var(--verde); }
+  .story-bubble.morado .character { color: var(--morado); }
+  .story-bubble.cian .character { color: var(--cian); }
+
+  /* PILL BOXES */
+  .pill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .pill {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--azul);
+    transition: transform 0.2s;
+  }
+  .pill:hover { transform: translateY(-4px); }
+  .pill .pill-icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .pill .pill-title { font-weight: 700; font-size: 0.95rem; color: var(--azul); margin-bottom: 0.25rem; }
+  .pill .pill-text { font-size: 0.85rem; color: #555; line-height: 1.4; }
+  .pill.red { border-top-color: var(--rojo); }
+  .pill.green { border-top-color: var(--verde); }
+  .pill.orange { border-top-color: var(--naranja); }
+  .pill.yellow { border-top-color: var(--amarillo); }
+  .pill.morado { border-top-color: var(--morado); }
+  .pill.cian { border-top-color: var(--cian); }
+
+  /* PYRAMID / ALIGNMENT */
+  .pyramid {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pyramid-level {
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .pyramid-level:hover { transform: translateX(6px); }
+  .pyramid-level .pl-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .pyramid-level .pl-label { font-size: 0.7rem; opacity: 0.85; display: block; font-weight: 400; }
+  .pnd { background: linear-gradient(90deg, #003087, #0044cc); }
+  .sectorial { background: linear-gradient(90deg, #C8102E, #e8305e); }
+  .estrategico { background: linear-gradient(90deg, #F47920, #f59940); }
+  .institucional { background: linear-gradient(90deg, #00A651, #00cc66); }
+  .arrow-down { text-align: center; font-size: 1.5rem; color: #999; margin: -0.25rem 0; }
+
+  /* INDICATOR TABLE */
+  .indicator-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .ind-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--azul);
+  }
+  .ind-card .ind-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.3rem; }
+  .ind-card .ind-name { font-weight: 700; font-size: 0.95rem; color: var(--azul); margin-bottom: 0.6rem; line-height: 1.3; }
+  .ind-card .ind-meta { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .ind-card .ind-meta .tag {
+    background: #f0f4ff;
+    color: var(--azul);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+  .ind-card .ind-meta .tag.green { background: #e6f9f0; color: var(--verde); }
+  .ind-card .ind-meta .tag.red { background: #fef0f3; color: var(--rojo); }
+  .ind-card .ind-meta .tag.morado { background: #f5eeff; color: var(--morado); }
+  .ind-card .progress-bar { background: #e8ecf4; border-radius: 8px; height: 8px; margin-top: 0.75rem; overflow: hidden; }
+  .ind-card .progress-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--azul), #4a90e2); }
+
+  /* BENEFITS */
+  .benefit-row {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: 0 4px 16px rgba(0,48,135,0.08);
+    transition: transform 0.2s;
+  }
+  .benefit-row:hover { transform: translateX(4px); }
+  .benefit-row .b-icon { font-size: 2.2rem; flex-shrink: 0; }
+  .benefit-row .b-body {}
+  .benefit-row .b-title { font-weight: 700; font-size: 1rem; color: var(--azul); margin-bottom: 0.3rem; }
+  .benefit-row .b-text { font-size: 0.9rem; color: #555; line-height: 1.5; }
+
+  /* PROGRAMA CARDS — Chapter 6 */
+  .programa-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+    border-left: 6px solid var(--azul);
+    transition: transform 0.2s;
+  }
+  .programa-card:hover { transform: translateX(4px); }
+  .programa-card .prog-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .programa-card .prog-icon { font-size: 2.4rem; }
+  .programa-card .prog-name {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--azul);
+    line-height: 1.2;
+  }
+  .programa-card .prog-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+  }
+  .programa-card .prog-desc {
+    font-size: 0.92rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  .programa-card .prog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .prog-chip {
+    background: #f0f4ff;
+    color: var(--azul);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+  }
+  .prog-chip.green { background: #e6f9f0; color: var(--verde); }
+  .prog-chip.red { background: #fef0f3; color: var(--rojo); }
+  .prog-chip.orange { background: #fff3e6; color: var(--naranja); }
+  .prog-chip.morado { background: #f5eeff; color: var(--morado); }
+  .prog-chip.cian { background: #e6f7ff; color: var(--cian); }
+
+  /* BUDGET — Chapter 7 */
+  .budget-bar-wrap {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .budget-row {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 4px 12px rgba(0,48,135,0.07);
+  }
+  .budget-row .br-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .budget-row .br-label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--azul);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .budget-row .br-amount {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #888;
+  }
+  .budget-row .br-bar {
+    background: #e8ecf4;
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .budget-row .br-fill {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 1s ease;
+  }
+  .total-box {
+    background: linear-gradient(135deg, var(--azul), #0055cc);
+    color: #fff;
+    border-radius: 18px;
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+  .total-box .tb-label { font-size: 0.85rem; opacity: 0.85; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .total-box .tb-amount { font-family: 'Baloo 2', cursive; font-size: 2.2rem; font-weight: 800; }
+  .total-box .tb-sub { font-size: 0.9rem; opacity: 0.85; margin-top: 0.25rem; }
+
+  .flow-steps {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+  }
+  .flow-step:last-child { padding-bottom: 0; }
+  .flow-step .fs-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .flow-step .fs-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .flow-step .fs-connector {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(180deg, rgba(0,48,135,0.3), transparent);
+    margin-top: 4px;
+    min-height: 20px;
+  }
+  .flow-step:last-child .fs-connector { display: none; }
+  .flow-step .fs-content {
+    padding-top: 0.4rem;
+    flex: 1;
+  }
+  .flow-step .fs-title { font-weight: 700; font-size: 1rem; color: var(--azul); margin-bottom: 0.25rem; }
+  .flow-step .fs-text { font-size: 0.88rem; color: #555; line-height: 1.5; }
+
+  /* RISK — Chapter 8 */
+  .risk-matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .risk-cell {
+    border-radius: 12px;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.4;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    transition: transform 0.2s;
+  }
+  .risk-cell:hover { transform: scale(1.04); }
+  .risk-cell .rc-icon { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
+  .risk-cell .rc-type { font-size: 0.72rem; opacity: 0.85; display: block; margin-bottom: 0.15rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .risk-low { background: linear-gradient(135deg, #00A651, #00cc66); }
+  .risk-mid { background: linear-gradient(135deg, #F47920, #f59940); }
+  .risk-high { background: linear-gradient(135deg, #C8102E, #e8305e); }
+  .risk-info { background: linear-gradient(135deg, #003087, #0055cc); }
+  .risk-morado { background: linear-gradient(135deg, #7B2D8B, #a040b8); }
+  .risk-cian { background: linear-gradient(135deg, #0099CC, #00bbee); }
+
+  .transparency-row {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 14px rgba(0,48,135,0.07);
+    border-left: 5px solid var(--cian);
+    transition: transform 0.2s;
+  }
+  .transparency-row:hover { transform: translateX(4px); }
+  .transparency-row .tr-icon { font-size: 2rem; flex-shrink: 0; }
+  .transparency-row .tr-title { font-weight: 700; font-size: 0.95rem; color: var(--azul); margin-bottom: 0.2rem; }
+  .transparency-row .tr-text { font-size: 0.85rem; color: #555; line-height: 1.5; }
+
+  /* TEAM — integrated into Chapter 8 */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .team-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+  }
+  .team-card:hover { transform: translateY(-5px); }
+  .team-card .tc-avatar {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+  .team-card .tc-role {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--azul);
+    margin-bottom: 0.3rem;
+  }
+  .team-card .tc-desc {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+  }
+  .team-card.red { border-top: 4px solid var(--rojo); }
+  .team-card.green { border-top: 4px solid var(--verde); }
+  .team-card.orange { border-top: 4px solid var(--naranja); }
+  .team-card.morado { border-top: 4px solid var(--morado); }
+  .team-card.cian { border-top: 4px solid var(--cian); }
+  .team-card.yellow { border-top: 4px solid var(--amarillo); }
+
+  /* QUIZ */
+  .quiz-q {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .quiz-q .q-text { font-weight: 700; font-size: 1rem; margin-bottom: 1rem; color: var(--azul); }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .quiz-options button {
+    background: #f0f4ff;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .quiz-options button:hover { background: #e0e8ff; border-color: var(--azul); }
+  .quiz-options button.correct { background: #e6f9f0; border-color: var(--verde); color: var(--verde); font-weight: 700; }
+  .quiz-options button.wrong { background: #fef0f3; border-color: var(--rojo); color: var(--rojo); }
+  .quiz-result { margin-top: 0.75rem; font-size: 0.9rem; font-weight: 600; display: none; }
+  .quiz-result.show { display: block; }
+
+  /* NAV */
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    z-index: 100;
+    display: none;
+  }
+  .nav-bar.visible { display: flex; }
+  .nav-btn {
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .nav-btn:hover { background: #0044cc; transform: translateY(-2px); }
+  .nav-btn.prev { background: #888; }
+  .nav-btn.prev:hover { background: #555; }
+  .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+  .chapter-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .chapter-dots .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #ddd;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .chapter-dots .dot.active { background: var(--azul); transform: scale(1.4); }
+
+  .spacer-nav { height: 80px; }
+
+  /* MEDAL */
+  .medal-section {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #003087, #C8102E);
+    border-radius: 24px;
+    color: #fff;
+    margin: 1.5rem 0;
+  }
+  .medal-section .medal { font-size: 5rem; margin-bottom: 1rem; animation: spin 3s linear infinite; }
+  @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+  .medal-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .medal-section p { opacity: 0.9; font-size: 1rem; }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, var(--azul), #0055cc);
+    color: #fff;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .highlight.green { background: linear-gradient(135deg, var(--verde), #00cc66); }
+  .highlight.orange { background: linear-gradient(135deg, var(--naranja), #f59940); }
+  .highlight.morado { background: linear-gradient(135deg, var(--morado), #a040b8); }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.75rem 0;
+    color: #bbb;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+  }
+
+  @media (max-width: 600px) {
+    .chapter { padding: 2rem 1rem; }
+    .pill-grid { grid-template-columns: 1fr 1fr; }
+    .indicator-cards { grid-template-columns: 1fr; }
+    .risk-matrix { grid-template-columns: 1fr 1fr; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-badge">📚 8 Capítulos · Edición Completa</div>
+  <div class="hero-stars">🌟✨🌟</div>
+  <h1>El Viaje de Lucía<br>¡Descubriendo Prosperidad Social!</h1>
+  <p>Un cuento interactivo para entender cómo el DPS trabaja por las familias colombianas más vulnerables</p>
+  <button class="btn-start" onclick="startJourney()">¡Empezar el viaje! 🚀</button>
+</div>
+
+<!-- CHAPTER 1: MISIÓN -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-emoji">🏠</span>
+    <div class="chapter-num">Capítulo 1</div>
+    <h2 class="chapter-title">¿Quién es Prosperidad Social?</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía tiene 8 años y vive en una vereda de Colombia. Un día, su maestra le pregunta: <em>"¿Sabes qué es Prosperidad Social?"</em> Lucía niega con la cabeza. Entonces comienza una aventura increíble para descubrirlo...
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "¡Imagínate que hay una entidad del Gobierno de Colombia que trabaja todos los días para que las familias más pobres y vulnerables puedan tener una vida mejor! Eso es el <strong>Departamento Administrativo para la Prosperidad Social — el DPS</strong>."
+  </div>
+
+  <div class="highlight">
+    🎯 <strong>MISIÓN DEL DPS:</strong> Movilizar la oferta social adecuada, diferencial e incluyente para mejorar las condiciones socioeconómicas de la población más vulnerable de Colombia.
+  </div>
+
+  <div class="story-bubble green">
+    <div class="character" style="color:var(--verde)">🧒 Lucía</div>
+    "¿Y qué hacen exactamente, maestra?"
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "¡Muchísimas cosas! Mira estos 5 grandes compromisos que tienen:"
+  </div>
+
+  <div class="pill-grid">
+    <div class="pill">
+      <div class="pill-icon">🍽️</div>
+      <div class="pill-title">Hambre Cero</div>
+      <div class="pill-text">Llevan canastas, bonos y comida a quienes más lo necesitan</div>
+    </div>
+    <div class="pill red">
+      <div class="pill-icon">💰</div>
+      <div class="pill-title">Transferencias Monetarias</div>
+      <div class="pill-text">Envían dinero a 3 millones de hogares pobres cada año</div>
+    </div>
+    <div class="pill green">
+      <div class="pill-icon">🌱</div>
+      <div class="pill-title">Inclusión Productiva</div>
+      <div class="pill-text">Ayudan a las familias a crear sus propios negocios y huertas</div>
+    </div>
+    <div class="pill orange">
+      <div class="pill-icon">🏘️</div>
+      <div class="pill-title">Mejoramiento de Vivienda</div>
+      <div class="pill-text">Arreglan las casas de familias víctimas del conflicto</div>
+    </div>
+    <div class="pill yellow">
+      <div class="pill-icon">🤝</div>
+      <div class="pill-title">Acompañamiento Familiar</div>
+      <div class="pill-text">Visitan y apoyan a 1.3 millones de hogares en extrema pobreza</div>
+    </div>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Los ojos de Lucía brillaron. ¡Eso era mucho trabajo para muchas familias! Pero quería saber más...
+  </div>
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 2: ALINEACIÓN DE PLANES -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-emoji">🗺️</span>
+    <div class="chapter-num">Capítulo 2</div>
+    <h2 class="chapter-title">La Gran Escalera de los Planes</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    La maestra llevó a Lucía a ver un mapa enorme colgado en la pared. Era como una escalera gigante donde cada peldaño era más pequeño pero más concreto que el anterior.
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "Mira Lucía — el trabajo de Prosperidad Social no es al azar. Está conectado con los grandes sueños del país. Todo sigue una escalera de planes..."
+  </div>
+
+  <div class="pyramid">
+    <div class="pyramid-level pnd">
+      <span class="pl-icon">🇨🇴</span>
+      <div>
+        <strong>Plan Nacional de Desarrollo 2022–2026</strong>
+        <span class="pl-label">"Colombia Potencia Mundial de la Vida" · Transformación 2: Seguridad Humana y Justicia Social</span>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="pyramid-level sectorial">
+      <span class="pl-icon">🏛️</span>
+      <div>
+        <strong>Plan Sectorial de Inclusión Social</strong>
+        <span class="pl-label">Objetivo: Movilizar oferta social para poblaciones vulnerables · 4 objetivos estratégicos sectoriales</span>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="pyramid-level estrategico">
+      <span class="pl-icon">📋</span>
+      <div>
+        <strong>Plan Estratégico Institucional (PEI)</strong>
+        <span class="pl-label">3 objetivos estratégicos del DPS · 22+ indicadores de producto</span>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="pyramid-level institucional">
+      <span class="pl-icon">✅</span>
+      <div>
+        <strong>Plan de Acción Institucional (PAI)</strong>
+        <span class="pl-label">Actividades trimestrales concretas · Responsables · Fechas · Metas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="story-bubble yellow">
+    <div class="character" style="color:var(--naranja)">🧒 Lucía</div>
+    "¡Entiendo! Es como cuando en casa hacemos planes: primero pensamos en ser felices (el gran sueño), luego pensamos qué comer (el plan del mes), luego qué cocinar hoy (el plan del día), ¡y luego lo hacemos!"
+  </div>
+
+  <div class="story-bubble green">
+    <div class="character" style="color:var(--verde)">👩‍🏫 Maestra Carmenza</div>
+    "¡Exactamente, Lucía! Y cada nivel tiene que conectarse con el de arriba. Cada peso que gasta el DPS responde a un objetivo del país. Eso se llama <strong>alineación estratégica</strong>."
+  </div>
+
+  <div class="pill-grid">
+    <div class="pill">
+      <div class="pill-icon">🎯</div>
+      <div class="pill-title">ODS 1</div>
+      <div class="pill-text">Fin de la pobreza</div>
+    </div>
+    <div class="pill red">
+      <div class="pill-icon">🥗</div>
+      <div class="pill-title">ODS 2</div>
+      <div class="pill-text">Hambre cero</div>
+    </div>
+    <div class="pill green">
+      <div class="pill-icon">⚖️</div>
+      <div class="pill-title">ODS 10</div>
+      <div class="pill-text">Reducción de desigualdades</div>
+    </div>
+    <div class="pill orange">
+      <div class="pill-icon">🏛️</div>
+      <div class="pill-title">ODS 16</div>
+      <div class="pill-text">Instituciones sólidas</div>
+    </div>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía tomó nota. El trabajo de Prosperidad Social no era solo para Colombia — ¡también ayudaba a cumplir los Objetivos de Desarrollo Sostenible del mundo entero!
+  </div>
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 3: INDICADORES -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-emoji">📊</span>
+    <div class="chapter-num">Capítulo 3</div>
+    <h2 class="chapter-title">¿Cómo saben si van bien? Los Indicadores</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía quería saber algo más: "¿Cómo saben si lo que hacen está funcionando?" La maestra la llevó a ver una pantalla llena de números y metas. "¡Eso se mide con indicadores!"
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "Un <strong>indicador</strong> es como el marcador de un partido de fútbol. Antes del partido dices: 'Queremos meter 3 goles'. Al final mides cuántos metiste. ¡Así el DPS mide si cumplió sus metas!"
+  </div>
+
+  <div class="indicator-cards">
+    <div class="ind-card">
+      <div class="ind-label">IP-4 · Cuatrienio</div>
+      <div class="ind-name">🏠 Hogares beneficiados con Transferencias Monetarias</div>
+      <div class="ind-meta">
+        <span class="tag green">Meta: 3.000.000</span>
+        <span class="tag">Anual: 3.000.000</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+    </div>
+    <div class="ind-card" style="border-top-color:var(--verde)">
+      <div class="ind-label">IP-5 · Cuatrienio</div>
+      <div class="ind-name">👨‍👩‍👧 Hogares con Acompañamiento para Movilidad Social</div>
+      <div class="ind-meta">
+        <span class="tag green">Meta: 1.300.000</span>
+        <span class="tag">2025: 825.632</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:63%; background:linear-gradient(90deg,var(--verde),#00cc66)"></div></div>
+    </div>
+    <div class="ind-card" style="border-top-color:var(--naranja)">
+      <div class="ind-label">IP-3 · Cuatrienio</div>
+      <div class="ind-name">🌾 Hogares atendidos para mejorar alimentación (ReSA + Hambre Cero)</div>
+      <div class="ind-meta">
+        <span class="tag" style="color:var(--naranja);background:#fff3e6">Meta: 18.600</span>
+        <span class="tag">Anual: 9.300</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:50%; background:linear-gradient(90deg,var(--naranja),#f59940)"></div></div>
+    </div>
+    <div class="ind-card" style="border-top-color:var(--rojo)">
+      <div class="ind-label">IP-7 · Cuatrienio</div>
+      <div class="ind-name">🏠 Mejoramientos de vivienda terminados (familias víctimas)</div>
+      <div class="ind-meta">
+        <span class="tag red">Meta: 2.209</span>
+        <span class="tag">2025: 709</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:32%; background:linear-gradient(90deg,var(--rojo),#e8305e)"></div></div>
+    </div>
+    <div class="ind-card" style="border-top-color:var(--amarillo)">
+      <div class="ind-label">IP-2 · Cuatrienio</div>
+      <div class="ind-name">🏗️ Obras de Infraestructura Social terminadas</div>
+      <div class="ind-meta">
+        <span class="tag" style="color:#cc8800;background:#fffbec">Meta: 247 obras</span>
+        <span class="tag">2025: 163</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:66%; background:linear-gradient(90deg,#cc8800,var(--amarillo))"></div></div>
+    </div>
+    <div class="ind-card" style="border-top-color:#9b59b6">
+      <div class="ind-label">IP-13 · Institucional</div>
+      <div class="ind-name">📈 Índice de Desempeño Institucional (IDI)</div>
+      <div class="ind-meta">
+        <span class="tag morado">Meta: 92%</span>
+        <span class="tag">2025: 90%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:90%; background:linear-gradient(90deg,#9b59b6,#c39bd3)"></div></div>
+    </div>
+  </div>
+
+  <div class="story-bubble yellow">
+    <div class="character" style="color:var(--naranja)">🧒 Lucía</div>
+    "¡Pero hay indicadores de verde, de amarillo... ¡como el semáforo de mi colegio!"
+  </div>
+
+  <div class="story-bubble green">
+    <div class="character" style="color:var(--verde)">👩‍🏫 Maestra Carmenza</div>
+    "¡Exacto! 🟢 Verde = vamos muy bien. 🟡 Amarillo = estamos avanzando pero falta. 🔴 Rojo = hay que trabajar más. Y cada indicador tiene una meta programada por trimestre para que el DPS pueda corregir a tiempo si algo va mal."
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía entendió que medir no era para castigar, sino para mejorar. Como cuando ella revisa sus tareas antes de entregarlas.
+  </div>
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 4: BENEFICIOS -->
+<div class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-emoji">🎁</span>
+    <div class="chapter-num">Capítulo 4</div>
+    <h2 class="chapter-title">¿Qué pasa cuando se cumplen las metas?</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    "Pero maestra... ¿y si se cumplen todos esos indicadores? ¿Qué pasa en la vida real de las familias?" Lucía pensó en su abuela, que vivía sola en el campo.
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "¡Esa es la pregunta más importante! Cuando se cumplen los indicadores, la vida de personas reales cambia. Mira lo que ocurre..."
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">🍱</div>
+    <div class="b-body">
+      <div class="b-title">Las familias ya no pasan hambre</div>
+      <div class="b-text">Con el programa <strong>Hambre Cero</strong>, 92.000 familias reciben canastas y bonos de alimentos cada año. Los niños llegan bien alimentados a la escuela y aprenden mejor.</div>
+    </div>
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">💳</div>
+    <div class="b-body">
+      <div class="b-title">Las mamás y papás tienen dinero para sus hijos</div>
+      <div class="b-text">A través de <strong>Renta Ciudadana, Colombia Mayor y Jóvenes en Paz</strong>, 3 millones de hogares reciben transferencias monetarias para comprar medicamentos, útiles y alimentos.</div>
+    </div>
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">🌿</div>
+    <div class="b-body">
+      <div class="b-title">Las familias aprenden a producir su propia comida</div>
+      <div class="b-text">El programa <strong>ReSA</strong> les enseña a sembrar huertas caseras. También se fortalecen 11.800 iniciativas de economía popular.</div>
+    </div>
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">🏠</div>
+    <div class="b-body">
+      <div class="b-title">Las víctimas del conflicto tienen casas dignas</div>
+      <div class="b-text">2.209 familias que fueron desplazadas por la violencia reciben mejoramiento de sus viviendas. Una casa segura significa salud, privacidad y dignidad.</div>
+    </div>
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">🏪</div>
+    <div class="b-body">
+      <div class="b-title">Las comunidades tienen dónde vender sus productos</div>
+      <div class="b-text">247 obras de infraestructura social — plazas de mercado, centros de acopio, Puntos de Abastecimiento Solidario — para que los campesinos puedan vender lo que producen.</div>
+    </div>
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">👨‍👩‍👧‍👦</div>
+    <div class="b-body">
+      <div class="b-title">Las familias tienen a alguien que las acompaña</div>
+      <div class="b-text">1.300.000 hogares reciben <strong>acompañamiento familiar</strong>: un profesional los visita, los escucha y los conecta con todos los servicios del Estado para salir de la pobreza.</div>
+    </div>
+  </div>
+
+  <div class="benefit-row">
+    <div class="b-icon">🧑‍💼</div>
+    <div class="b-body">
+      <div class="b-title">Los jóvenes tienen más oportunidades</div>
+      <div class="b-text">700.000 jóvenes acceden a oferta complementaria dentro del <strong>Programa Jóvenes en Paz</strong> — formación, empleo, cultura — para construir sus proyectos de vida.</div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    💡 <strong>¿Lo más importante?</strong> Todos estos beneficios están conectados: una familia con comida, casa, dinero y acompañamiento puede salir de la pobreza y no volver a ella. ¡Eso es prosperidad real!
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía pensó en su abuela. Quizás Prosperidad Social ya la estaba ayudando sin que ella lo supiera. Sintió algo cálido en el pecho: orgullo por su país.
+  </div>
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 5: QUIZ 1 -->
+<div class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-emoji">🧠</span>
+    <div class="chapter-num">Capítulo 5 — ¡Pausa para el reto!</div>
+    <h2 class="chapter-title">¿Qué aprendiste hasta aquí?</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Al final de la primera parte del día, la maestra Carmenza hizo una pausa. "Antes de seguir, Lucía, ¡verifiquemos lo que aprendimos!" ¿Nos ayudas a responder?
+  </div>
+
+  <div class="quiz-q">
+    <div class="q-text">1. ¿Cuál es la misión principal del DPS - Prosperidad Social?</div>
+    <div class="quiz-options">
+      <button onclick="checkQuiz(this,'wrong')">Construir carreteras para Colombia</button>
+      <button onclick="checkQuiz(this,'correct')">Mejorar las condiciones de vida de la población más vulnerable e incluyente</button>
+      <button onclick="checkQuiz(this,'wrong')">Cobrar impuestos a las empresas</button>
+    </div>
+    <div class="quiz-result">✅ ¡Muy bien! El DPS moviliza oferta social para mejorar condiciones socioeconómicas de los más vulnerables.</div>
+  </div>
+
+  <div class="quiz-q">
+    <div class="q-text">2. ¿Cuántos hogares tiene como meta beneficiar el DPS con Transferencias Monetarias en el cuatrienio?</div>
+    <div class="quiz-options">
+      <button onclick="checkQuiz(this,'wrong')">500.000 hogares</button>
+      <button onclick="checkQuiz(this,'wrong')">1.300.000 hogares</button>
+      <button onclick="checkQuiz(this,'correct')">3.000.000 de hogares</button>
+    </div>
+    <div class="quiz-result">✅ ¡Correcto! La meta del cuatrienio es beneficiar a 3 millones de hogares con programas como Renta Ciudadana, Colombia Mayor y Jóvenes en Paz.</div>
+  </div>
+
+  <div class="quiz-q">
+    <div class="q-text">3. ¿Qué es el Plan Nacional de Desarrollo (PND) en relación con el trabajo del DPS?</div>
+    <div class="quiz-options">
+      <button onclick="checkQuiz(this,'correct')">El gran plan del gobierno que guía y da sentido a todo el trabajo del DPS</button>
+      <button onclick="checkQuiz(this,'wrong')">Un plan que solo aplica a Bogotá</button>
+      <button onclick="checkQuiz(this,'wrong')">El presupuesto anual del DPS</button>
+    </div>
+    <div class="quiz-result">✅ ¡Excelente! El PND "Colombia Potencia Mundial de la Vida" es el nivel más alto de la escalera, y el DPS alinea todos sus objetivos con él.</div>
+  </div>
+
+  <div class="quiz-q">
+    <div class="q-text">4. Si el indicador de mejoramientos de vivienda está al 32%, ¿qué color de semáforo le pondría?</div>
+    <div class="quiz-options">
+      <button onclick="checkQuiz(this,'wrong')">🟢 Verde — ¡ya cumplimos!</button>
+      <button onclick="checkQuiz(this,'correct')">🟡 Amarillo — estamos avanzando pero falta camino</button>
+      <button onclick="checkQuiz(this,'wrong')">🔵 Azul — superamos la meta</button>
+    </div>
+    <div class="quiz-result">✅ ¡Muy bien! Al 32% hay progreso, pero todavía falta para llegar a la meta. Se requiere acelerar el ritmo.</div>
+  </div>
+
+  <div class="highlight green">
+    🌟 ¡Fantástico! Lucía sigue avanzando. ¡Hay más por descubrir en los próximos capítulos!
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía estaba contenta. Pero la maestra le sonrió y dijo: "Aún falta lo más interesante: los programas por dentro, el dinero, los riesgos y las personas que hacen posible todo esto. ¡Vamos!"
+  </div>
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 6: PROGRAMAS EN DETALLE -->
+<div class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-emoji">🔍</span>
+    <div class="chapter-num">Capítulo 6</div>
+    <h2 class="chapter-title">Los Programas por Dentro</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    La maestra abrió un libro muy grande y colorido. "Ahora vamos a conocer cada programa del DPS de cerca. ¡Como si los visitáramos!"
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "El DPS tiene varios programas estrella. Cada uno tiene un nombre especial, un grupo de personas que ayuda, y una manera particular de llegar a ellas."
+  </div>
+
+  <div class="section-divider">💰 Transferencias Monetarias</div>
+
+  <div class="programa-card" style="border-left-color:var(--azul)">
+    <div class="prog-header">
+      <span class="prog-icon">🏦</span>
+      <div>
+        <div class="prog-name">Renta Ciudadana</div>
+        <div class="prog-tag">Transferencia monetaria condicionada</div>
+      </div>
+    </div>
+    <div class="prog-desc">Entrega dinero directamente a hogares en situación de pobreza extrema para que puedan cubrir sus necesidades básicas: comida, salud, educación. El dinero se entrega cada dos meses a través de una tarjeta o giro.</div>
+    <div class="prog-meta">
+      <span class="prog-chip green">👨‍👩‍👧 Hogares en pobreza extrema</span>
+      <span class="prog-chip">💳 Giro bimestral</span>
+      <span class="prog-chip cian">🎯 Meta cuatrienio: 3M hogares</span>
+    </div>
+  </div>
+
+  <div class="programa-card" style="border-left-color:var(--verde)">
+    <div class="prog-header">
+      <span class="prog-icon">👴</span>
+      <div>
+        <div class="prog-name">Colombia Mayor</div>
+        <div class="prog-tag">Subsidio económico para adultos mayores</div>
+      </div>
+    </div>
+    <div class="prog-desc">Apoya a personas mayores de 60 años que viven en pobreza y no tienen pensión. Les entrega un subsidio periódico para que puedan comprar alimentos y medicamentos, y vivir con más dignidad en su vejez.</div>
+    <div class="prog-meta">
+      <span class="prog-chip green">👴 Adultos mayores sin pensión</span>
+      <span class="prog-chip orange">🏘️ Zonas rurales y urbanas</span>
+      <span class="prog-chip">📅 Pago periódico</span>
+    </div>
+  </div>
+
+  <div class="programa-card" style="border-left-color:var(--morado)">
+    <div class="prog-header">
+      <span class="prog-icon">🧑‍🎓</span>
+      <div>
+        <div class="prog-name">Jóvenes en Paz</div>
+        <div class="prog-tag">Inclusión social de jóvenes en riesgo</div>
+      </div>
+    </div>
+    <div class="prog-desc">Atiende a jóvenes entre 14 y 28 años en condición de vulnerabilidad, especialmente los que están en riesgo de vincularse a grupos armados. Les ofrece transferencias, formación, arte, deporte y construcción de proyecto de vida.</div>
+    <div class="prog-meta">
+      <span class="prog-chip morado">🧑 14–28 años vulnerables</span>
+      <span class="prog-chip green">🎨 Arte, deporte, formación</span>
+      <span class="prog-chip cian">🎯 700.000 jóvenes</span>
+    </div>
+  </div>
+
+  <div class="section-divider">🌱 Seguridad Alimentaria</div>
+
+  <div class="programa-card" style="border-left-color:var(--naranja)">
+    <div class="prog-header">
+      <span class="prog-icon">🥦</span>
+      <div>
+        <div class="prog-name">ReSA — Red de Seguridad Alimentaria</div>
+        <div class="prog-tag">Producción de alimentos para autoconsumo</div>
+      </div>
+    </div>
+    <div class="prog-desc">Enseña a las familias a cultivar huertas caseras, criar animales de patio y conservar alimentos. Así pueden tener comida fresca en casa sin depender solo del mercado. También promueve la economía campesina.</div>
+    <div class="prog-meta">
+      <span class="prog-chip orange">🌾 Familias rurales y urbanas</span>
+      <span class="prog-chip green">🌱 Huertas + animales de patio</span>
+      <span class="prog-chip">📦 Insumos + capacitación</span>
+    </div>
+  </div>
+
+  <div class="programa-card" style="border-left-color:var(--rojo)">
+    <div class="prog-header">
+      <span class="prog-icon">🍽️</span>
+      <div>
+        <div class="prog-name">Hambre Cero</div>
+        <div class="prog-tag">Atención alimentaria de emergencia</div>
+      </div>
+    </div>
+    <div class="prog-desc">Entrega canastas de alimentos y bonos a familias en situación crítica, incluyendo comunidades étnicas, zonas afectadas por desastres y zonas de difícil acceso. Es la respuesta más rápida del Estado ante el hambre.</div>
+    <div class="prog-meta">
+      <span class="prog-chip red">🚨 Emergencias alimentarias</span>
+      <span class="prog-chip">🏔️ Zonas rurales y étnicas</span>
+      <span class="prog-chip green">🎯 92.000 familias/año</span>
+    </div>
+  </div>
+
+  <div class="section-divider">🏘️ Hábitat y Movilidad Social</div>
+
+  <div class="programa-card" style="border-left-color:var(--cian)">
+    <div class="prog-header">
+      <span class="prog-icon">🔨</span>
+      <div>
+        <div class="prog-name">Mejoramiento de Vivienda Rural</div>
+        <div class="prog-tag">Dignidad habitacional para víctimas</div>
+      </div>
+    </div>
+    <div class="prog-desc">Repara y mejora las viviendas de familias desplazadas por el conflicto armado. Los arreglos incluyen techos, pisos, paredes, instalaciones sanitarias y redes eléctricas. Una vivienda digna es el primer paso para reconstruir la vida.</div>
+    <div class="prog-meta">
+      <span class="prog-chip cian">🏠 Familias víctimas del conflicto</span>
+      <span class="prog-chip">🔧 Obras físicas certificadas</span>
+      <span class="prog-chip red">🎯 2.209 mejoramientos</span>
+    </div>
+  </div>
+
+  <div class="programa-card" style="border-left-color:var(--verde)">
+    <div class="prog-header">
+      <span class="prog-icon">🤝</span>
+      <div>
+        <div class="prog-name">Familias en su Tierra (FEST) / Acompañamiento Familiar</div>
+        <div class="prog-tag">Movilidad social e inclusión</div>
+      </div>
+    </div>
+    <div class="prog-desc">Profesionales del DPS visitan a 1.3 millones de hogares en extrema pobreza. Los acompañan, escuchan sus necesidades y los conectan con todos los programas del Estado para que puedan superar las barreras y salir de la pobreza de forma definitiva.</div>
+    <div class="prog-meta">
+      <span class="prog-chip green">👨‍👩‍👧 1.300.000 hogares</span>
+      <span class="prog-chip">📋 Ruta de atención integral</span>
+      <span class="prog-chip morado">🧭 Gestión social territorial</span>
+    </div>
+  </div>
+
+  <div class="story-bubble yellow">
+    <div class="character" style="color:var(--naranja)">🧒 Lucía</div>
+    "¡Cada programa es como un superpoder diferente! Juntos forman un equipo invencible para ayudar a las familias."
+  </div>
+
+  <div class="story-bubble green">
+    <div class="character" style="color:var(--verde)">👩‍🏫 Maestra Carmenza</div>
+    "¡Exactamente, Lucía! Y lo más poderoso es que todos trabajan juntos de forma coordinada. Una misma familia puede recibir varios programas al mismo tiempo."
+  </div>
+
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 7: PRESUPUESTO -->
+<div class="chapter" id="ch7">
+  <div class="chapter-header">
+    <span class="chapter-emoji">💼</span>
+    <div class="chapter-num">Capítulo 7</div>
+    <h2 class="chapter-title">El Dinero que Mueve la Esperanza</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    "Maestra, ¿de dónde sale la plata para todos esos programas?" Lucía había estado pensando en eso todo el camino de regreso al salón. La maestra sonrió: "¡Ahora sí entramos a algo muy serio!"
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "El dinero del DPS viene del presupuesto nacional. Es decir, de los impuestos que pagan los colombianos y las empresas. Por eso es tan importante usarlo bien: ¡es plata de todos!"
+  </div>
+
+  <div class="total-box">
+    <div class="tb-label">Presupuesto Total DPS 2025</div>
+    <div class="tb-amount">~ $6,2 Billones COP</div>
+    <div class="tb-sub">Recursos para transformar vidas en todo el territorio nacional 🇨🇴</div>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "Ese presupuesto no llega todo junto. Se divide por programas, por regiones y por trimestres. Mira cómo se distribuye en los grandes grupos de gasto:"
+  </div>
+
+  <div class="budget-bar-wrap">
+    <div class="budget-row">
+      <div class="br-header">
+        <div class="br-label">💳 Transferencias Monetarias (Renta Ciudadana, Colombia Mayor, Jóvenes en Paz)</div>
+        <div class="br-amount">~60%</div>
+      </div>
+      <div class="br-bar"><div class="br-fill" style="width:60%; background:linear-gradient(90deg,var(--azul),#4a90e2)"></div></div>
+    </div>
+    <div class="budget-row">
+      <div class="br-header">
+        <div class="br-label">🏗️ Infraestructura Social y Hábitat</div>
+        <div class="br-amount">~18%</div>
+      </div>
+      <div class="br-bar"><div class="br-fill" style="width:18%; background:linear-gradient(90deg,var(--naranja),#f59940)"></div></div>
+    </div>
+    <div class="budget-row">
+      <div class="br-header">
+        <div class="br-label">🌾 Seguridad Alimentaria y Economía Popular</div>
+        <div class="br-amount">~10%</div>
+      </div>
+      <div class="br-bar"><div class="br-fill" style="width:10%; background:linear-gradient(90deg,var(--verde),#00cc66)"></div></div>
+    </div>
+    <div class="budget-row">
+      <div class="br-header">
+        <div class="br-label">🤝 Acompañamiento Familiar y Movilidad Social</div>
+        <div class="br-amount">~8%</div>
+      </div>
+      <div class="br-bar"><div class="br-fill" style="width:8%; background:linear-gradient(90deg,var(--morado),#a040b8)"></div></div>
+    </div>
+    <div class="budget-row">
+      <div class="br-header">
+        <div class="br-label">⚙️ Gestión Institucional y funcionamiento</div>
+        <div class="br-amount">~4%</div>
+      </div>
+      <div class="br-bar"><div class="br-fill" style="width:4%; background:linear-gradient(90deg,#888,#bbb)"></div></div>
+    </div>
+  </div>
+
+  <div class="story-bubble yellow">
+    <div class="character" style="color:var(--naranja)">🧒 Lucía</div>
+    "¡Wow! Entonces la mayoría del dinero va directo a las familias en forma de transferencias. Solo un poquito se queda en funcionamiento."
+  </div>
+
+  <div class="story-bubble green">
+    <div class="character" style="color:var(--verde)">👩‍🏫 Maestra Carmenza</div>
+    "¡Exactamente! Eso se llama <strong>eficiencia presupuestal</strong>: que el mayor porcentaje posible llegue a las personas, no se quede en gastos de oficina. Ahora veamos cómo viaja ese dinero desde el Gobierno hasta las familias..."
+  </div>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="fs-line">
+        <div class="fs-circle" style="background:var(--azul)">1</div>
+        <div class="fs-connector"></div>
+      </div>
+      <div class="fs-content">
+        <div class="fs-title">🏛️ El Congreso aprueba el Presupuesto Nacional</div>
+        <div class="fs-text">Cada año, el Congreso de Colombia aprueba cuánto dinero tendrá cada entidad del Estado. El DPS recibe su asignación según las prioridades sociales del Gobierno.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="fs-line">
+        <div class="fs-circle" style="background:var(--rojo)">2</div>
+        <div class="fs-connector"></div>
+      </div>
+      <div class="fs-content">
+        <div class="fs-title">📋 El DPS planifica y distribuye</div>
+        <div class="fs-text">El equipo de planeación del DPS decide qué parte va a cada programa y a cada región del país, siguiendo las metas del Plan de Acción y los indicadores.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="fs-line">
+        <div class="fs-circle" style="background:var(--naranja)">3</div>
+        <div class="fs-connector"></div>
+      </div>
+      <div class="fs-content">
+        <div class="fs-title">📦 Se ejecutan los contratos y convenios</div>
+        <div class="fs-text">El DPS contrata operadores, firma convenios con alcaldías y entidades, y compra bienes y servicios siguiendo reglas estrictas de contratación pública (SECOP).</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="fs-line">
+        <div class="fs-circle" style="background:var(--verde)">4</div>
+        <div class="fs-connector"></div>
+      </div>
+      <div class="fs-content">
+        <div class="fs-title">💳 Los recursos llegan a las familias</div>
+        <div class="fs-text">El dinero llega a través de giros bancarios, tarjetas, canastas de alimentos u obras físicas. Cada entrega queda registrada y verificada.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="fs-line">
+        <div class="fs-circle" style="background:var(--morado)">5</div>
+        <div class="fs-connector"></div>
+      </div>
+      <div class="fs-content">
+        <div class="fs-title">📊 Se mide y se rinde cuentas</div>
+        <div class="fs-text">El DPS reporta trimestralmente cómo gastó cada peso, qué logró y qué falta. Todos los colombianos pueden consultarlo en los portales de transparencia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight orange">
+    💡 <strong>Dato clave:</strong> El DPS ejecuta más del 95% de su presupuesto en promedio cada año — una de las tasas de ejecución más altas del sector social del Gobierno colombiano.
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía miró su alcancía esa noche y pensó: "Yo también quiero aprender a manejar bien el dinero para ayudar a otros." El DPS le había enseñado algo que iba más allá de los programas.
+  </div>
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- CHAPTER 8: RIESGOS, TRANSPARENCIA Y EQUIPO -->
+<div class="chapter" id="ch8">
+  <div class="chapter-header">
+    <span class="chapter-emoji">🛡️</span>
+    <div class="chapter-num">Capítulo 8</div>
+    <h2 class="chapter-title">Cuidar lo Logrado: Riesgos, Transparencia y el Equipo Humano</h2>
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Al día siguiente, Lucía llegó temprano al colegio. Tenía otra pregunta: "Maestra, ¿y qué pasa si algo sale mal? ¿Quién cuida los programas?" La maestra abrió los brazos. "¡La mejor pregunta de toda la semana!"
+  </div>
+
+  <div class="story-bubble morado">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "En el DPS existe toda una cultura de <strong>gestión del riesgo</strong>. Eso significa que antes de que algo salga mal, ¡ya están pensando en cómo evitarlo o manejarlo!"
+  </div>
+
+  <div class="section-divider">⚠️ Tipos de Riesgo que gestiona el DPS</div>
+
+  <div class="risk-matrix">
+    <div class="risk-cell risk-high">
+      <span class="rc-icon">🏗️</span>
+      <span class="rc-type">Riesgo de Ejecución</span>
+      Demoras en obras o entregas por dificultades logísticas en zonas remotas
+    </div>
+    <div class="risk-cell risk-mid">
+      <span class="rc-icon">💸</span>
+      <span class="rc-type">Riesgo Presupuestal</span>
+      Recortes de presupuesto o cambios en la asignación que afecten las metas
+    </div>
+    <div class="risk-cell risk-info">
+      <span class="rc-icon">📋</span>
+      <span class="rc-type">Riesgo de Focalización</span>
+      Que los beneficios no lleguen a quienes más los necesitan
+    </div>
+    <div class="risk-cell risk-morado">
+      <span class="rc-icon">🔒</span>
+      <span class="rc-type">Riesgo de Corrupción</span>
+      Irregularidades en contratos, filtraciones o mal uso de recursos
+    </div>
+    <div class="risk-cell risk-cian">
+      <span class="rc-icon">🌧️</span>
+      <span class="rc-type">Riesgo Externo</span>
+      Desastres naturales, orden público o cambios políticos que afecten la operación
+    </div>
+    <div class="risk-cell risk-low">
+      <span class="rc-icon">📊</span>
+      <span class="rc-type">Riesgo de Información</span>
+      Datos desactualizados o errores en los sistemas que impidan medir bien los resultados
+    </div>
+  </div>
+
+  <div class="story-bubble yellow">
+    <div class="character" style="color:var(--naranja)">🧒 Lucía</div>
+    "¡Son muchos riesgos! ¿Y cómo los manejan?"
+  </div>
+
+  <div class="story-bubble red">
+    <div class="character">👩‍🏫 Maestra Carmenza</div>
+    "Con tres herramientas poderosas: <strong>control interno, auditorías y transparencia</strong>. Mira cómo funciona cada una..."
+  </div>
+
+  <div class="section-divider">🔍 Herramientas de Control y Transparencia</div>
+
+  <div class="transparency-row">
+    <div class="tr-icon">🏛️</div>
+    <div>
+      <div class="tr-title">Control Interno y MIPG</div>
+      <div class="tr-text">El DPS aplica el Modelo Integrado de Planeación y Gestión (MIPG). Tiene un equipo de control interno que revisa procesos, detecta fallas y propone mejoras antes de que los problemas crezcan.</div>
+    </div>
+  </div>
+
+  <div class="transparency-row">
+    <div class="tr-icon">🔎</div>
+    <div>
+      <div class="tr-title">Auditorías de la Contraloría General</div>
+      <div class="tr-text">La Contraloría General de la República revisa periódicamente cómo el DPS gasta los recursos públicos. Sus hallazgos son públicos y el DPS debe responderlos con planes de mejora.</div>
+    </div>
+  </div>
+
+  <div class="transparency-row">
+    <div class="tr-icon">📢</div>
+    <div>
+      <div class="tr-title">Rendición de Cuentas a la Ciudadanía</div>
+      <div class="tr-text">Al menos una vez al año, el DPS hace una audiencia pública donde cualquier colombiano puede preguntar, reclamar o felicitar. Los informes también están disponibles en internet.</div>
+    </div>
+  </div>
+
+  <div class="transparency-row">
+    <div class="tr-icon">🌐</div>
+    <div>
+      <div class="tr-title">Portales de Datos Abiertos y SECOP</div>
+      <div class="tr-text">Todos los contratos del DPS se publican en el SECOP (Sistema Electrónico de Contratación Pública). Los ciudadanos pueden ver quién contrató, cuánto y para qué. La transparencia es la mejor vacuna contra la corrupción.</div>
+    </div>
+  </div>
+
+  <div class="transparency-row">
+    <div class="tr-icon">📱</div>
+    <div>
+      <div class="tr-title">Líneas de Atención y Peticiones, Quejas y Reclamos (PQRS)</div>
+      <div class="tr-text">Cualquier beneficiario puede presentar una queja o reclamo si siente que no fue bien atendido. El DPS tiene la obligación legal de responder en tiempos definidos.</div>
+    </div>
+  </div>
+
+  <div class="section-divider">👥 Las Personas que Hacen Posible Todo</div>
+
+  <div class="story-bubble cian">
+    <div class="character" style="color:var(--cian)">👩‍🏫 Maestra Carmenza</div>
+    "Lucía, detrás de cada programa, de cada indicador, de cada peso bien gastado, hay personas reales trabajando. ¡Ese es el equipo humano del DPS!"
+  </div>
+
+  <div class="team-grid">
+    <div class="team-card red">
+      <span class="tc-avatar">👩‍💼</span>
+      <div class="tc-role">Directora / Director General</div>
+      <div class="tc-desc">Lidera la entidad, toma las decisiones estratégicas y representa al DPS ante el Gobierno y la ciudadanía.</div>
+    </div>
+    <div class="team-card green">
+      <span class="tc-avatar">👨‍🔬</span>
+      <div class="tc-role">Equipo de Planeación</div>
+      <div class="tc-desc">Diseña los indicadores, hace seguimiento a las metas y alinea el trabajo con el Plan Nacional de Desarrollo.</div>
+    </div>
+    <div class="team-card orange">
+      <span class="tc-avatar">🧑‍💻</span>
+      <div class="tc-role">Gestores de Programas</div>
+      <div class="tc-desc">Coordinan cada programa social: desde Renta Ciudadana hasta Hambre Cero. Son el puente entre la política y la realidad.</div>
+    </div>
+    <div class="team-card cian">
+      <span class="tc-avatar">👩‍🏫</span>
+      <div class="tc-role">Cogestores Sociales</div>
+      <div class="tc-desc">Son los profesionales que visitan los hogares en todo el país. Ellos conocen a cada familia, la acompañan y la conectan con los servicios.</div>
+    </div>
+    <div class="team-card morado">
+      <span class="tc-avatar">📊</span>
+      <div class="tc-role">Equipo de Control Interno</div>
+      <div class="tc-desc">Revisan que los procesos se cumplan correctamente, detectan riesgos y proponen mejoras continuas.</div>
+    </div>
+    <div class="team-card yellow">
+      <span class="tc-avatar">⚖️</span>
+      <div class="tc-role">Área Jurídica y Contractual</div>
+      <div class="tc-desc">Garantizan que todos los contratos y convenios del DPS cumplan la ley y protejan el dinero público.</div>
+    </div>
+    <div class="team-card">
+      <span class="tc-avatar">💻</span>
+      <div class="tc-role">Equipo de Tecnología (TIC)</div>
+      <div class="tc-desc">Mantienen los sistemas de información, protegen los datos de los beneficiarios y desarrollan herramientas digitales.</div>
+    </div>
+    <div class="team-card green">
+      <span class="tc-avatar">🌍</span>
+      <div class="tc-role">Equipos Territoriales</div>
+      <div class="tc-desc">Presentes en todas las regiones de Colombia. Son los ojos y el corazón del DPS en los municipios y veredas más apartados.</div>
+    </div>
+  </div>
+
+  <div class="highlight morado">
+    🌟 El DPS cuenta con más de 3.000 servidores públicos y miles de cogestores y operadores en todo el territorio nacional. ¡Una red humana que no descansa!
+  </div>
+
+  <div class="story-bubble">
+    <div class="character">📖 Narradora</div>
+    Lucía cerró sus ojos y se imaginó a todos esos funcionarios en las montañas, las selvas y las ciudades de Colombia, llevando esperanza a cada familia. Abrió los ojos y dijo algo que nadie esperaba...
+  </div>
+
+  <div class="story-bubble yellow">
+    <div class="character" style="color:var(--naranja)">🧒 Lucía</div>
+    "Maestra... cuando grande quiero trabajar en Prosperidad Social. Quiero ser cogestora y visitar las familias como la mía. Para que nadie en Colombia quede atrás."
+  </div>
+
+  <div class="story-bubble green">
+    <div class="character" style="color:var(--verde)">👩‍🏫 Maestra Carmenza</div>
+    "Y eso, Lucía, es exactamente lo que necesita Colombia: personas como tú, que entienden que detrás de cada número hay una familia real, y que el trabajo del Estado tiene sentido cuando se hace con vocación y corazón. 🇨🇴❤️"
+  </div>
+
+  <div class="medal-section">
+    <div class="medal">🏅</div>
+    <h2>¡Viaje Completo, Explorador/a!</h2>
+    <p>Recorriste los 8 capítulos con Lucía. Ahora conoces la misión, los planes, los indicadores, los beneficios, los programas, el presupuesto, los riesgos y el equipo humano del DPS.<br><br>
+    Cada dato es una familia colombiana con más dignidad, más comida, más esperanza y más futuro.<br><br>
+    <strong>Prosperidad Social trabaja para que ningún colombiano quede atrás. 🇨🇴❤️</strong></p>
+  </div>
+
+  <div class="pill-grid" style="margin-top:1.5rem">
+    <div class="pill">
+      <div class="pill-icon">🏠</div>
+      <div class="pill-title">Cap. 1</div>
+      <div class="pill-text">Misión del DPS</div>
+    </div>
+    <div class="pill red">
+      <div class="pill-icon">🗺️</div>
+      <div class="pill-title">Cap. 2</div>
+      <div class="pill-text">Escalera de Planes</div>
+    </div>
+    <div class="pill green">
+      <div class="pill-icon">📊</div>
+      <div class="pill-title">Cap. 3</div>
+      <div class="pill-text">Indicadores</div>
+    </div>
+    <div class="pill orange">
+      <div class="pill-icon">🎁</div>
+      <div class="pill-title">Cap. 4</div>
+      <div class="pill-text">Beneficios Reales</div>
+    </div>
+    <div class="pill yellow">
+      <div class="pill-icon">🧠</div>
+      <div class="pill-title">Cap. 5</div>
+      <div class="pill-text">Quiz Intermedio</div>
+    </div>
+    <div class="pill morado">
+      <div class="pill-icon">🔍</div>
+      <div class="pill-title">Cap. 6</div>
+      <div class="pill-text">Programas en Detalle</div>
+    </div>
+    <div class="pill cian">
+      <div class="pill-icon">💼</div>
+      <div class="pill-title">Cap. 7</div>
+      <div class="pill-text">Presupuesto</div>
+    </div>
+    <div class="pill">
+      <div class="pill-icon">🛡️</div>
+      <div class="pill-title">Cap. 8</div>
+      <div class="pill-text">Riesgos y Equipo</div>
+    </div>
+  </div>
+
+  <div class="spacer-nav"></div>
+</div>
+
+<!-- NAV BAR -->
+<div class="nav-bar" id="navBar">
+  <button class="nav-btn prev" id="btnPrev" onclick="changeChapter(-1)">← Anterior</button>
+  <div class="chapter-dots" id="dots"></div>
+  <button class="nav-btn" id="btnNext" onclick="changeChapter(1)">Siguiente →</button>
+</div>
+
+<script>
+const chapters = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8'];
+let current = 0;
+
+function startJourney() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('navBar').classList.add('visible');
+  buildDots();
+  showChapter(0);
+}
+
+function buildDots() {
+  const dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  chapters.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' active':'');
+    dots.appendChild(d);
+  });
+}
+
+function showChapter(idx) {
+  chapters.forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(chapters[idx]).classList.add('active');
+  window.scrollTo(0,0);
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+  document.getElementById('btnPrev').classList.toggle('disabled', idx===0);
+  document.getElementById('btnNext').classList.toggle('disabled', idx===chapters.length-1);
+  if(idx===chapters.length-1) {
+    document.getElementById('btnNext').textContent = '¡Listo! ✅';
+    document.getElementById('btnNext').classList.add('disabled');
+  } else {
+    document.getElementById('btnNext').textContent = 'Siguiente →';
+    if(idx < chapters.length-1) document.getElementById('btnNext').classList.remove('disabled');
+  }
+}
+
+function changeChapter(dir) {
+  current = Math.max(0, Math.min(chapters.length-1, current+dir));
+  showChapter(current);
+}
+
+function checkQuiz(btn, type) {
+  const opts = btn.parentElement;
+  const result = btn.parentElement.nextElementSibling;
+  if (opts.querySelector('.correct') || opts.querySelector('.wrong')) return;
+  Array.from(opts.children).forEach(b => {
+    if (b === btn) b.classList.add(type);
+  });
+  result.classList.add('show');
+}
+</script>
+</body>
+</html>
